@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="toroTest">
+
+  <head>
+    <meta charset="utf-8" />
+    <title>AngularJS Plunker</title>
+    <script data-require="angular.js@1.2.x" src="https://code.angularjs.org/1.2.25/angular.js" data-semver="1.2.25"></script>
+    <script src="app.js"></script>
+    <style>
+      table, th, td {
+         border: 1px solid black;
+         padding:5px;
+      }
+      table {
+         border-collapse: collapse;
+         margin:10px;
+      }
+    </style>
+  </head>
+  <body ng-controller="MainCtrl">
+    <p>Hello {{name}}!</p>
+    <input id="file" type="file"  name="file" multiple onchange="angular.element(this).scope().displayContent(this)" />
+    <table>
+    <tr ng-repeat="x in fileReader">
+      <td ng-repeat="y in x track by $index">{{ y }}</td>
+    </tr>
+  </table>
+  </body>
+</html>
