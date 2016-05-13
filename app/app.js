@@ -4,7 +4,6 @@ app.controller('MainCtrl', function($scope) {
   $scope.name = 'World';
   $scope.displayContent = function(fileContent){
     var files = fileContent.files;
-
     if (files.length) {
       var r = new FileReader();
       r.onload = function(e) {
