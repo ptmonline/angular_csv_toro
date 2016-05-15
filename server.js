@@ -23,6 +23,7 @@ app.post('/upload',function(req,res){
     console.log(req.file)
 		res.end("File is uploaded");
     // res.sendFile(req.file)
+    // res.redirect('back');
 	});
 });
 
