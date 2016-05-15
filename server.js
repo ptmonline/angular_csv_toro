@@ -1,21 +1,31 @@
-var express = require('express');
-var path = require('path');
-var bodyParser = require('body-parser');
-var server = express();
-// var storage =   multer.diskStorage({
-//   destination: function (req, file, callback) {
-//     callback(null, './uploads');
-//   },
-//   filename: function (req, file, callback) {
-//     callback(null, file.fieldname + '-' + Date.now());
-//   }
-// });
+var express	=	require("express");
+var multer	=	require('multer');
+var app	=	express();
+var storage	=	multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, './uploads');
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.originalname);
+  }
+});
+var upload = multer({ storage : storage}).single('userPhoto');
+app.use(express.static('./'));
+app.get('/',function(req,res){
+      res.sendFile(__dirname + "/index.html");
+});
 
-server.use(express.static(__dirname + '/app'));
-server.get('/', function(req, res){
-  res.sendFile('index.html')
-})
+app.post('/upload',function(req,res){
+	upload(req,res,function(err) {
+		if(err) {
+			return res.end("Error uploading file.");
+		}
+    console.log(req.file)
+		res.end("File is uploaded");
+    // res.sendFile(req.file)
+	});
+});
 
-server.listen(3000, function(){
-  console.log('running on port 3000')
-})
+app.listen(3000,function(){
+    console.log("Working on port 3000");
+});
