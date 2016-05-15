@@ -1,36 +1,36 @@
-angular.module('toroTest', [])
-  .controller('mainController', function($scope, $http){
-    $scope.hello = 'TORO Angular Test';
-    var theNameOftheFile = '';
-    $scope.checkName = function(file){
-      console.log(file.files)
-      theNameOftheFile = file.files[0].name
+angular.module('toroTest', ['ngFileUpload'])
+.controller('mainController',['Upload','$window','$http','$scope', function(Upload,$window, $http, $scope){
+    var vm = $scope;
+    vm.submit = function(){ //function to call on form submit
+        if (vm.upload_form.file.$valid && vm.file) { //check if from is valid
+            vm.upload(vm.file); //call upload function
+        }
     }
-    $scope.getFile = function(){
-      console.log('trigered')
-      $('#uploadForm').submit(function() {
-   		 //  $("#status").empty().text("File is uploading...");
-        $(this).ajaxSubmit({
-          error: function(xhr) {
-            status('Error: ' + xhr.status);
-          },
-          success: function(response) {
-   					console.log(response)
-            theFile();
-   				// 	$("#status").empty().text(response);
-          }
-   	    });
-        return false;
-     });
-      function theFile(){
-        $http.get('./uploads/' + theNameOftheFile).then(function(resp){
+
+    vm.upload = function (file, $http) {
+      console.log(file)
+        // vm.displayContent(file)
+        Upload.upload({
+            url: 'http://localhost:3000/upload', //webAPI exposed to upload the file
+            data:{file:file} //pass file as data, should be user ng-model
+        }).then(function (resp) { //upload function returns a promise
+            console.log(resp)
+            console.log(resp.config.data.file.name)
+            // vm.displayContent(resp.config.data.file)
+            var fileName = resp.config.data.file.name;
+              getFile(resp.config.data.file.name)
+        });
+    };
+    function getFile(fileName){
+      var url = "/uploads/" + fileName;
+      console.log(url)
+      $http.get(url).then(function(resp){
           console.log(resp)
-          $scope.getTheFile(resp)
+          vm.getTheFile(resp)
         })
-      }
 
     }
-    $scope.getTheFile = function(res){
+   vm.getTheFile = function(res){
       var files = res.data;
       console.log(files)
       var lineCounter = files.split(/\r\n|\n/);
@@ -50,6 +50,6 @@ angular.module('toroTest', [])
           lines.push(tarr);
         }
       }
-    $scope.fileReader = lines;
+    vm.fileReader = lines;
     }
-  })
+}]);
