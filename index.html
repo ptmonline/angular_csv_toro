@@ -2,44 +2,11 @@
 <html ng-app="toroTest">
   <head>
     <meta charset="utf-8">
-    <title>File upload Node.</title>
+    <title>Toro Test</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
-    <style media="screen">
-    .btn-file {
-      position: relative;
-      overflow: hidden;
-    }
-    .btn-file input[type=file] {
-      position: absolute;
-      top: 0;
-      right: 0;
-      min-width: 100%;
-      min-height: 100%;
-      font-size: 100px;
-      text-align: right;
-      filter: alpha(opacity=0);
-      opacity: 0;
-      background: red;
-      cursor: inherit;
-      display: block;
-    }
-    .file-input-label {
-    	padding: 0px 10px;
-    	display: table-cell;
-    	vertical-align: middle;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-    }
-    input[readonly] {
-      background-color: white !important;
-      cursor: text !important;
-    }
-    #submitBtn{
-      display:block;
-    }
-    </style>
+    <link rel="stylesheet" href="/css/main.min.css" media="screen" title="no title" charset="utf-8">
   </head>
   <body ng-controller='mainController'>
     <div class="container">
@@ -54,7 +21,6 @@
           </span>
           <span class="file-input-label"></span>
         </div>
-        <!-- <div id="submitBtn" type="submit" class="btn btn-default" ng-click="up.submit()">submit</div> -->
         <button id="submitBtn" type="submit" class="btn btn-default" ng-click="submit()">submit</button>
       </form>
       <div class="table-responsive">
@@ -71,30 +37,22 @@
 	<script type="text/javascript" src="node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script>
   <script type="text/javascript" src="app.js"></script>
   <script type="text/javascript">
-  $(document).on('change', '.btn-file :file', function() {
-    console.log('changing')
-    var input = $(this),
-        numFiles = input.get(0).files ? input.get(0).files.length : 1,
-        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-    input.trigger('fileselect', [numFiles, label]);
-    $('button#submitBtn').trigger('click');
-    });
-
-    $(document).ready( function() {
-
-      $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-        console.log("teste");
-        $('button').trigger('click')
-        console.log('changing too')
-        var input_label = $(this).closest('.input-group').find('.file-input-label'),
-          log = numFiles > 1 ? numFiles + ' files selected' : label;
-
+    $(document).on('change', '.btn-file :file', function() {
+      var input = $(this),
+          numFiles = input.get(0).files ? input.get(0).files.length : 1,
+          label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+      var input_label = $(this).closest('.input-group').find('.file-input-label'),
+        log = numFiles > 1 ? numFiles + ' files selected' : label;
         if( input_label.length ) {
           input_label.text(log);
+          $('#submitBtn').trigger('click');
         } else {
           if( log ) alert(log);
         }
+        setTimeout(function(){
+            $('#submitBtn').trigger('click');
+        },200)
+
       });
-    });
   </script>
 </html>

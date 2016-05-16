@@ -1,6 +1,7 @@
 angular.module('toroTest', ['ngFileUpload'])
 .controller('mainController',['Upload','$window','$http','$scope', function(Upload,$window, $http, $scope){
     var vm = $scope;
+    vm.hello = 'TORO Angular Test';
     vm.submit = function(){ //function to call on form submit
         if (vm.upload_form.file.$valid && vm.file) { //check if from is valid
             vm.upload(vm.file); //call upload function
