@@ -1,5 +1,5 @@
 angular.module('toroTest', ['ngFileUpload'])
-.controller('mainController',['Upload','$window','$http','$scope', function(Upload,$window, $http, $scope){
+.controller('mainController',['Upload','DataService','$window', function(Upload,DataService,$window){
     var mctrl = this;
     mctrl.hello = 'TORO Angular Test';
     mctrl.submit = function(){ //function to call on form submit
@@ -7,7 +7,7 @@ angular.module('toroTest', ['ngFileUpload'])
             mctrl.upload(mctrl.file); //call upload function
         }
     }
-    mctrl.upload = function (file, $http) {
+    mctrl.upload = function (file) {
       Upload.upload({
           url: 'http://localhost:3000/upload', //webAPI exposed to upload the file
           data:{file:file} //pass file as data, should be user ng-model
@@ -17,13 +17,13 @@ angular.module('toroTest', ['ngFileUpload'])
     };
     function getFile(fileName){
       var url = "/uploads/" + fileName;
-      $http.get(url).then(function(resp){
-          console.log(resp)
-          mctrl.getTheFile(resp)
-        })
-      }
+      DataService.getData(url).then(function(resp){
+        console.log(resp)
+        mctrl.getTheFile(resp)
+      })
+    }
    mctrl.getTheFile = function(res){
-      var files = res.data;
+      var files = res;
       console.log(files)
       var lineCounter = files.split(/\r\n|\n/);
       if(lineCounter.length == 1){
@@ -44,4 +44,14 @@ angular.module('toroTest', ['ngFileUpload'])
       }
     mctrl.fileReader = lines;
     }
-}]);
+}])
+.factory('DataService', function($http){
+  return{
+    getData: function(url){
+      return $http.get(url)
+        .then(function(response){
+          return response.data
+        })
+    }
+  }
+})
