@@ -1,5 +1,5 @@
 angular.module('toroTest', ['ngFileUpload'])
-.controller('mainController',['Upload','DataService','$window', function(Upload,DataService,$window){
+.controller('mainController',['Upload','DataService', function(Upload,DataService){
     var mctrl = this;
     mctrl.hello = 'TORO Angular Test';
     mctrl.submit = function(){ //function to call on form submit

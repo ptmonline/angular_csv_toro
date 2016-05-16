@@ -9,7 +9,7 @@
   </head>
   <body ng-controller='mainController as mCtrl'>
     <div class="container">
-      <h1>{{mCtrl.hello}}</h1>
+      <h1 class="ng-cloak">{{mCtrl.hello}}</h1>
       <p class="lead">Select a file and upload it to Uploads folder</p>
         <form name="mCtrl.upload_form">
         <div class="input-group">
@@ -25,7 +25,7 @@
       <div class="table-responsive">
       <table class="table table-striped">
         <tr ng-repeat="x in mCtrl.fileReader">
-          <td ng-repeat="y in x track by $index">{{ y }}</td>
+          <td class="ng-cloak" ng-repeat="y in x track by $index">{{ y }}</td>
         </tr>
       </table>
     </div>
