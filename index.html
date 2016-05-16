@@ -4,28 +4,27 @@
     <meta charset="utf-8">
     <title>Toro Test</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
     <link rel="stylesheet" href="/css/main.min.css" media="screen" title="no title" charset="utf-8">
   </head>
-  <body ng-controller='mainController'>
+  <body ng-controller='mainController as mCtrl'>
     <div class="container">
-      <h1>{{hello}}</h1>
+      <h1>{{mCtrl.hello}}</h1>
       <p class="lead">Select a file and upload it to Uploads folder</p>
-        <form name="upload_form">
+        <form name="mCtrl.upload_form">
         <div class="input-group">
           <span class="input-group-btn">
             <label class="btn btn-primary btn-file" for="multiple_input_group">
-              <div class="input required"><input id="multiple_input_group" type="file" ngf-select ng-model="file" name="file"></div> Browse
+              <div class="input required"><input id="multiple_input_group" type="file" ngf-select ng-model="mCtrl.file" name="file"></div> Browse
             </label>
           </span>
-          <span class="file-input-label"></span>
+          <span id="file-label" class="file-input-label"></span>
         </div>
-        <button id="submitBtn" type="submit" class="btn btn-default" ng-click="submit()">submit</button>
+        <button id="submitBtn" type="submit" class="btn btn-default" ng-click="mCtrl.submit()">submit</button>
       </form>
       <div class="table-responsive">
       <table class="table table-striped">
-        <tr ng-repeat="x in fileReader">
+        <tr ng-repeat="x in mCtrl.fileReader">
           <td ng-repeat="y in x track by $index">{{ y }}</td>
         </tr>
       </table>
@@ -37,22 +36,18 @@
 	<script type="text/javascript" src="node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script>
   <script type="text/javascript" src="app.js"></script>
   <script type="text/javascript">
-    $(document).on('change', '.btn-file :file', function() {
-      var input = $(this),
-          numFiles = input.get(0).files ? input.get(0).files.length : 1,
-          label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-      var input_label = $(this).closest('.input-group').find('.file-input-label'),
-        log = numFiles > 1 ? numFiles + ' files selected' : label;
-        if( input_label.length ) {
-          input_label.text(log);
-          $('#submitBtn').trigger('click');
-        } else {
-          if( log ) alert(log);
-        }
+      var file = document.getElementById('multiple_input_group');
+      file.onchange = function(){
+        var input = this,
+        numFiles = input.files ? input.files.length : 1,
+        label = input.value.replace(/\\/g, '/').replace(/.*\//, ''),
+        inputLabel = document.getElementById('file-label'),
+        log = numFiles > 1 ? numFiles + ' files selected' : label,
+        submitBtn = document.getElementById('submitBtn');
+        inputLabel.innerHTML = log;
         setTimeout(function(){
-            $('#submitBtn').trigger('click');
+            submitBtn.click();
         },200)
-
-      });
+      }
   </script>
 </html>
