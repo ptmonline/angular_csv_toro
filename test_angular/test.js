@@ -30,14 +30,11 @@ describe('mainController', function(){
     beforeEach(module('toroTest'))
 
     var scope, mainController, q, deferred, response;
-
+    var url = './uploads/data-example-1.csv'
     beforeEach(function(){
-      response = {"items": [
-        {"title" : "iPhone 6S Oro", "email": "iphonemail@wallapop.com", "price": "740"},
-        {"title" : "Polaroid 635", "email": "cameramail@wallapop.com", "price": "50"}
-      ]}
-      JSONService = {
-        getData: function(){
+      response = 'Product Title,SKU,Parent SKU,Price,Color,Description'
+      DataService = {
+        getData: function(url){
           deferred = q.defer();
           return deferred.promise
         }
@@ -49,7 +46,7 @@ describe('mainController', function(){
       q = $q;
       mainController = $controller('mainController',{
         $scope : scope,
-				DataService: JSONService
+				DataService: DataService
       })
   }))
 
@@ -57,7 +54,7 @@ describe('mainController', function(){
       expect(module).not.toEqual(null);
     });
 		it("should say hello", function(){
-			expect(mainController.hello).toBe('TORO Angular Test')
+			expect(mainController.init).toBe('TORO Angular Test')
 		})
 		it("should return true", function(){
 			expect(typeof mainController.submit).toEqual('function');
@@ -68,7 +65,7 @@ describe('mainController', function(){
     // it('should return data', function(){
     //   deferred.resolve(response);
     //   scope.$root.$digest();
-    //   expect(scope.items[0].title).not.toBeUndefined();
-    //   expect(scope.items[0].title).toBe('iPhone 6S Oro');
+    //   expect(scope).not.toBeUndefined();
+    //   expect(scope).toBe('Product Title,SKU,Parent SKU,Price,Color,Description');
     // })
 });
