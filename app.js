@@ -23,6 +23,7 @@ angular.module('toroTest', ['ngFileUpload'])
     }
    mctrl.getTheFile = function(res){ //display content
       var files = res;
+      
       console.log(files)
       var lineCounter = files.split(/\r\n|\n/);
       console.log(lineCounter)
@@ -31,18 +32,28 @@ angular.module('toroTest', ['ngFileUpload'])
       }
       var headers = lineCounter[0].split(',');
       console.log(headers)
+      
       var lines = [];
-      for ( var i = 0; i < lineCounter.length; i++) { // split content based on comma
-        var data = lineCounter[i].split(',');
-        if (data.length == headers.length) {
-          var tarr = [];
-          for ( var j = 0; j < headers.length; j++) {
-            tarr.push(data[j]);
+      // for ( var i = 0; i < lineCounter.length; i++) { // split content based on comma
+      //   var data = lineCounter[i].split(',');
+      //   if (data.length == headers.length) {
+      //     var tarr = [];
+      //     for ( var j = 0; j < headers.length; j++) {
+      //       tarr.push(data[j]);
+      //     }
+      //     lines.push(tarr);
+      //   }
+      // }
+      function getHeaders(headers) {
+        var theHeaders = [];
+          for (var i = 0; i < headers.length; i++) { // split content based on comma
+            var data = headers[i].split(',');
+            theHeaders.push(headers[i].split(',')[0]);
+            console.log(theHeaders);
           }
-          lines.push(tarr);
+          return theHeaders;
         }
-      }
-    mctrl.headers = headers;
+    mctrl.headers = getHeaders(headers);
     mctrl.fileReader = lines;
     }
 }])
