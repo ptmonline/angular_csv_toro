@@ -24,9 +24,12 @@
       </form>
       <div class="table-responsive">
       <table class="table table-striped">
-        <th ng-repeat="x in mCtrl.headers">
-          <td>{{x}}</td>
-        </th>
+        <tr>
+          <td ng-repeat="x in mCtrl.headers">{{x}}</td>
+        </tr>
+        <tr ng-repeat="x in mCtrl.infocenter">
+          <td ng-repeat="(key, value) in x" >{{value}}</td>
+          </tr>
       </table>
     </div>
     </div>
