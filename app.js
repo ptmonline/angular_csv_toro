@@ -23,11 +23,14 @@ angular.module('toroTest', ['ngFileUpload'])
     }
    mctrl.getTheFile = function(res){ //display content
       var files = res;
+      console.log(files)
       var lineCounter = files.split(/\r\n|\n/);
+      console.log(lineCounter)
       if(lineCounter.length == 1){ // split first file for headers
         var lineCounter = files.split("\r");
       }
       var headers = lineCounter[0].split(',');
+      console.log(headers)
       var lines = [];
       for ( var i = 0; i < lineCounter.length; i++) { // split content based on comma
         var data = lineCounter[i].split(',');
@@ -39,6 +42,7 @@ angular.module('toroTest', ['ngFileUpload'])
           lines.push(tarr);
         }
       }
+    mctrl.headers = headers;
     mctrl.fileReader = lines;
     }
 }])

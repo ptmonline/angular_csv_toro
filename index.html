@@ -24,9 +24,9 @@
       </form>
       <div class="table-responsive">
       <table class="table table-striped">
-        <tr ng-repeat="x in mCtrl.fileReader">
+        <th ng-repeat="x in mCtrl.headers">
           <td class="ng-cloak" ng-repeat="y in x track by $index">{{ y }}</td>
-        </tr>
+        </th>
       </table>
     </div>
     </div>
